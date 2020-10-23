@@ -20,3 +20,9 @@ Robert C. Martin认为，架构师的核心工作之一，就是确定不同部�
 DIP: The Dependency Inversion Principle
 The code that implements high-level policy should not depend on the code that implements low-level details. Rather, details should depend on policies.
 依赖倒置原则：实现高层策略的代码不应该依赖于实现底层细节的代码，而应该反过来，让细节依赖于策略。（Clean Architecture——Robert C. Martin）
+
+	设计指导：
+1.	从架构的角度，依赖关系应从部件的抽象度来考虑，遵从低抽象度的部件依赖于高抽象度的部件，而非简单的上层依赖于下层。
+2.	依赖倒置原则，从实现技术的角度，其本质为：1、制定抽象接口；2、确定接口归属权。
+3.	对于接口归属权来说，由于大多数场景下使用方抽象层次更高，所以可以解读为：接口归属于使用方而非实现方。但在特定场景下，使用方与实现方处于同一个抽象层次，可以考虑将接口以独立软件包的形式呈现。
+4.	依赖倒置的典型技术包括插件机制，依赖注入等。
