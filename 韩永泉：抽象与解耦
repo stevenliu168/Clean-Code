@@ -1,0 +1,93 @@
+抽象与解耦
+Contents
+什么是抽象？有哪些抽象层次？
+常见哪些依赖类型？
+面向接口编程
+扩展接口定义导致build失败 -> 更加抽象的接口
+
+仿COM组件接口 -> 大而全的单一接口
+通过void*来解耦
+通过接口拆分来解耦
+
+依赖倒置
+模板方法模式
+build顺序依赖
+抽象
+例子：人（手）持有一个杯子
+张群辉：http://hwworks-live.huawei.com/webcast/live/vod/209768bab6c44d66be44d484e3c08a17
+新的需求: 对Human的能力进行扩展 -> Hold a phone
+Old client编译构建失败
+进一步抽象 -> 更general的接口 -> 将依赖倒置
+
+C程序中，虽然不能像C++/Java那样方便地提取抽象基接口(或抽象基类)，但仍然可以实现进程内组件化接口：
+•	自研仿COM组件接口和实现；
+•	使用标准IDL定义接口，使用CORBA实现和调用接口，例如ACE TAO/omniORB等。优点是可以跨进程跨机器远程调用CORBA对象，缺点是太重量级了。
+仿COM进程内组件对象及其接口
+
+通过void*来解耦
+通过void*实现抽象的例子
+qsort():
+
+
+
+
+
+
+bsearch():
+
+
+
+
+fwm_queue:
+
+拆分接口/增加新接口
+一个组件对象实现多个interface
+组件对象和接口查询
+组件工厂对象和组件信息注册
+依赖倒置 – 高层模块依赖底层模块 -> 依赖更加稳定的库和接口 -> 单向依赖
+用注册callback函数来反转模块层次之间的依赖方向(举例)
+子类调用父类
+class Base {
+public:
+    void Execute() {
+        ......   // common work
+    }
+};
+
+class Derived_1 : public Base {
+public: 
+    void Execute() {
+        ...... // do something special (1)
+        Base::Execute();
+        ...... // do something special (2)
+    }
+};
+
+模板方法模式的本质：一个通用的模板方法内，个别步骤可根据不同的对象类型调用不同的函数实现。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+模板方法模式使得基类方法能够自动地根据对象的实际类型来选择调用哪个派生类的具体方法，符合OCP原则。
+build顺序依赖：pub拆仓 -> 组件接口(开发包)独立发布 -> 并行全量构建
+问题：模块接口(develop package)和运行包(lib package)一起构建和发布，因此依赖于该开发包的其他
+           client模块就无法提前构建.
+解决：pub单独建仓或者移到模型仓，确保它可以独立打包和提前发布，而不必等到 lib package 的构建完成
+           后才发布.
+
